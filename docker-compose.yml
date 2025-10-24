@@ -1,0 +1,45 @@
+services:
+  proxymanager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '${ADMIN_WEB_PORT:-81}:81' # Admin Web Port
+      # - '21:21' # FTP
+
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: ${MYSQL_PORT:-3306}
+      DB_MYSQL_USER: ${MYSQL_USER}
+      DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_MYSQL_NAME: ${MYSQL_DATABASE}
+      DISABLE_IPV6: 'true'
+
+    volumes:
+      - data:/data
+      - letsencrypt:/etc/letsencrypt
+
+  db:
+    image: 'mysql:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_PORT: ${MYSQL_PORT:-3306}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql:/var/lib/mysql
+
+networks:
+  net:
+    external: false
+
+volumes:
+  data:
+    name: proxymanager-data
+  letsencrypt:
+    name: proxymanager-certs
+  mysql:
+    name: proxymanager-dbdata

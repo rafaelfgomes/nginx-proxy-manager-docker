@@ -1,6 +1,7 @@
 services:
   proxymanager:
     image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
       - '80:80' # Public HTTP Port
@@ -22,6 +23,7 @@ services:
 
   db:
     image: 'mysql:latest'
+    container_name: nginx-proxy-manager-db
     restart: unless-stopped
     environment:
       MYSQL_PORT: ${MYSQL_PORT:-3306}

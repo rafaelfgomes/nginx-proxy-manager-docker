@@ -1,6 +1,6 @@
 services:
   proxymanager:
-    image: 'jc21/nginx-proxy-manager:latest'
+    image: jc21/nginx-proxy-manager
     container_name: nginx-proxy-manager
     hostname: nginx-proxy-manager
     restart: unless-stopped
@@ -10,8 +10,8 @@ services:
       - '${ADMIN_WEBUI_PORT:-81}:81' # Admin Web Port
       # - '21:21' # FTP
     environment:
-      DB_MYSQL_HOST: 127.0.0.1
-      DB_MYSQL_PORT: ${MYSQL_PORT:-3306}
+      DB_MYSQL_HOST: db
+      DB_MYSQL_PORT: 3306
       DB_MYSQL_USER: root
       DB_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DB_MYSQL_NAME: ${MYSQL_DATABASE}
@@ -25,11 +25,10 @@ services:
       - db
 
   db:
-    image: 'mysql'
+    image: mysql
     container_name: proxy-db
     hostname: proxy-db
     environment:
-      MYSQL_PORT: ${MYSQL_PORT:-3306}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

@@ -10,10 +10,10 @@ services:
       - '${ADMIN_WEBUI_PORT:-81}:81' # Admin Web Port
       # - '21:21' # FTP
     environment:
-      DB_MYSQL_HOST: "db"
+      DB_MYSQL_HOST: db
       DB_MYSQL_PORT: ${MYSQL_PORT:-3306}
-      DB_MYSQL_USER: ${MYSQL_USER}
-      DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_MYSQL_USER: root
+      DB_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DB_MYSQL_NAME: ${MYSQL_DATABASE}
       DISABLE_IPV6: 'true'
     volumes:

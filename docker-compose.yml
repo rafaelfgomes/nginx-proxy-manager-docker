@@ -18,6 +18,7 @@ services:
       DISABLE_IPV6: 'true'
     volumes:
       - ${DATA_FOLDER:-./data}:/data
+      - ./custom/http.conf:/data/nginx/custom/server_proxy.conf:ro
       - ${CERTS_FOLDER:-./certs}:/etc/letsencrypt
     networks:
       - net

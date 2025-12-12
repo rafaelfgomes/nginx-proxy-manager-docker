@@ -15,9 +15,7 @@ services:
       net:
 
   proxymanager:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jc21/nginx-proxy-manager
     container_name: nginx-proxy-manager-app
     hostname: nginx-proxy-manager-app
     restart: unless-stopped
@@ -35,11 +33,9 @@ services:
     volumes:
       - data:/data
       - certs:/etc/letsencrypt
+      - ./http.conf:/data/nginx/custom/server_proxy.conf:ro
     networks:
       net:
-    dns:
-      - ${DNS_IP_1}
-      - ${DNS_IP_2:-9.9.9.9}
     depends_on:
       - db
 

@@ -37,15 +37,15 @@ services:
     networks:
       net:
     depends_on:
-      - db
+      - database
 
 volumes:
   data:
     name: nginx-proxy-manager-data
   certs:
     name: nginx-proxy-manager-certs
-  db:
-    name: nginx-proxy-manager-db
+  database:
+    name: nginx-proxy-manager-database
 
 networks:
   net:

@@ -33,7 +33,7 @@ services:
     volumes:
       - data:/data
       - certs:/etc/letsencrypt
-      - ./http.conf:/data/nginx/custom/server_proxy.conf
+      - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
     networks:
       net:
     depends_on:
@@ -49,4 +49,5 @@ volumes:
 
 networks:
   net:
-    external: false
+    external: true
+    name: reverse-proxy-network

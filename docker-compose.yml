@@ -1,8 +1,8 @@
 services:
-  db:
+  database:
     image: mysql
-    container_name: proxy-db
-    hostname: proxy-db
+    container_name: nginx-proxy-manager-db
+    hostname: nginx-proxy-manager-db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -12,36 +12,36 @@ services:
       - db:/var/lib/mysql
     restart: always
     networks:
-      - local
+      net:
 
   proxymanager:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nginx-proxy-manager
-    hostname: nginx-proxy-manager
+    container_name: nginx-proxy-manager-app
+    hostname: nginx-proxy-manager-app
     restart: unless-stopped
     environment:
-      DB_MYSQL_HOST: db
+      DB_MYSQL_HOST: database
       DB_MYSQL_PORT: 3306
       DB_MYSQL_USER: root
       DB_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DB_MYSQL_NAME: ${MYSQL_DATABASE}
       DISABLE_IPV6: 'true'
+    ports:
+      - ${NPM_HTTP_PORT:-80}:80
+      - ${NPM_HTTPS_PORT:-443}:443
+      - ${NPM_ADMIN_PORT:-81}:81
     volumes:
       - data:/data
       - certs:/etc/letsencrypt
     networks:
       net:
-        ipv4_address: ${APP_IP}
-      local:
     dns:
       - ${DNS_IP_1}
       - ${DNS_IP_2:-9.9.9.9}
     depends_on:
       - db
-
-  
 
 volumes:
   data:
@@ -53,8 +53,4 @@ volumes:
 
 networks:
   net:
-    external: true
-    name: webapps-network
-  local:
-    driver: bridge
-    internal: true
+    external: false

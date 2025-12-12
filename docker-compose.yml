@@ -33,7 +33,7 @@ services:
     volumes:
       - data:/data
       - certs:/etc/letsencrypt
-      - ./http.conf:/data/nginx/custom/server_proxy.conf:ro
+      - ./http.conf:/data/nginx/custom/server_proxy.conf
     networks:
       net:
     depends_on:

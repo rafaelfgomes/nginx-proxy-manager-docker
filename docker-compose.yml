@@ -31,8 +31,8 @@ services:
       - ${NPM_HTTPS_PORT:-443}:443
       - ${NPM_ADMIN_PORT:-81}:81
     volumes:
-      - data:/data
-      - certs:/etc/letsencrypt
+      - ./data:/data
+      - ./certs:/etc/letsencrypt
       - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
     networks:
       net:
@@ -40,14 +40,9 @@ services:
       - database
 
 volumes:
-  data:
-    name: nginx-proxy-manager-data
-  certs:
-    name: nginx-proxy-manager-certs
   database:
-    name: nginx-proxy-manager-database
+    name: npm-database
 
 networks:
   net:
-    external: true
-    name: reverse-proxy-network
+    name: npm-network

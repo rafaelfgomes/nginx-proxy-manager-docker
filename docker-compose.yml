@@ -35,6 +35,7 @@ services:
     volumes:
       - ./data:/data
       - ./certs:/etc/letsencrypt
+      - /opt/npm-logs:/data/logs
       - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
     networks:
       net:

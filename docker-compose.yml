@@ -23,6 +23,7 @@ services:
       - ./certs:/etc/letsencrypt
       - /var/log/npm:/data/logs
       - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
+      - ./configs/geoip2.conf:/data/nginx/custom/root_top.conf
     networks:
       local:
 

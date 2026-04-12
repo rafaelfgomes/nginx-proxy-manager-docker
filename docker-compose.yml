@@ -20,6 +20,6 @@ services:
     volumes:
       - ./data:/data
       - ./certs:/etc/letsencrypt
-      - /opt/npm-logs:/data/logs
+      - /var/log/npm:/data/logs
       - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
     network_mode: host

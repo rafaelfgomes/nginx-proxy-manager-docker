@@ -22,4 +22,9 @@ services:
       - ./certs:/etc/letsencrypt
       - /var/log/npm:/data/logs
       - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
-    network_mode: host
+    networks:
+      local:
+
+networks:
+  local:
+    name: npm-network

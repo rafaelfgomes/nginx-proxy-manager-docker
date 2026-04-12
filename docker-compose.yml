@@ -1,25 +1,12 @@
 services:
-  database:
-    image: mysql
-    container_name: nginx-proxy-manager-db
-    hostname: nginx-proxy-manager-db
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-    volumes:
-      - database:/var/lib/mysql
-    restart: always
-    networks:
-      net:
-
   proxymanager:
     image: jc21/nginx-proxy-manager
     container_name: nginx-proxy-manager-app
     hostname: nginx-proxy-manager-app
     restart: unless-stopped
     environment:
-      DB_MYSQL_HOST: database
-      DB_MYSQL_PORT: 3306
+      DB_MYSQL_HOST: ${MYSQL_HOST_URL}
+      DB_MYSQL_PORT: ${MYSQL_PORT:-3306}
       DB_MYSQL_USER: root
       DB_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DB_MYSQL_NAME: ${MYSQL_DATABASE}
@@ -35,15 +22,4 @@ services:
       - ./certs:/etc/letsencrypt
       - /opt/npm-logs:/data/logs
       - ./configs/http.conf:/data/nginx/custom/server_proxy.conf
-    networks:
-      net:
-    depends_on:
-      - database
-
-volumes:
-  database:
-    name: npm-database
-
-networks:
-  net:
-    name: npm-network
+    network_mode: host

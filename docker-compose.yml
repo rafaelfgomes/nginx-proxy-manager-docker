@@ -5,12 +5,13 @@ services:
     hostname: nginx-proxy-manager-app
     restart: unless-stopped
     environment:
-      DB_MYSQL_HOST: ${MYSQL_HOST_URL}
-      DB_MYSQL_PORT: ${MYSQL_PORT:-3306}
-      DB_MYSQL_USER: root
-      DB_MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      DB_MYSQL_NAME: ${MYSQL_DATABASE}
+      DB_POSTGRES_HOST: ${POSTGRES_HOST_URL}
+      DB_POSTGRES_PORT: ${POSTGRES_PORT:-3306}
+      DB_POSTGRES_USER: root
+      DB_POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+      DB_POSTGRES_NAME: ${POSTGRES_DATABASE}
       DISABLE_IPV6: 'true'
+      TZ: "${TIMEZONE:-UTC}"
     ports:
       - 80:80
       - 443:443
